@@ -105,7 +105,16 @@ function RouteComponent() {
           <h1 className="font-kufi text-[28px] sm:text-[36px] font-extrabold leading-tight headline-balance">
             {article.title}
           </h1>
-          <p className="font-kufi text-xs text-ink-muted mt-2">بقلم هيئة تحرير الجبنة — ملف الشخصيات</p>
+          <p className="font-kufi text-xs text-ink-muted mt-2">بقلم: {article.author ?? 'هيئة تحرير الجبنة'} — ملف الشخصيات</p>
+
+          {issue.video && (
+            <div className="mt-6 overflow-hidden border border-ink/15 bg-ink p-2">
+              <video controls playsInline preload="metadata" poster={issue.video.poster} aria-label={issue.video.title} className="w-full rounded-sm">
+                <source src={issue.video.src} type="video/mp4" />
+                <a href={issue.video.src} download className="font-kufi text-sm text-paper underline">تحميل فيديو اللقاء</a>
+              </video>
+            </div>
+          )}
 
           <div className="mt-6 font-naskh text-[15px] leading-[1.95] text-ink-soft">
             <p className="drop-cap">{article.intro}</p>
@@ -120,6 +129,8 @@ function RouteComponent() {
             <p className="font-kufi text-[17px] font-bold leading-relaxed text-accent">“ {article.quote} ”</p>
             <cite className="block font-naskh text-xs text-ink-muted mt-2 not-italic">— من أقوال {article.character}</cite>
           </blockquote>
+
+          {article.editorialNote && <p className="mt-5 border-r-2 border-accent pr-3 font-naskh text-sm text-ink-muted">{article.editorialNote}</p>}
 
           <div className="mt-6 flex flex-wrap gap-2">
             {article.tags.map((t) => (

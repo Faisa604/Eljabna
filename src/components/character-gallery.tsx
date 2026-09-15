@@ -6,7 +6,7 @@ export default function CharacterGallery() {
       <div className="flex flex-wrap items-end justify-between gap-3 border-b-2 border-ink pb-3 mb-6">
         <div>
           <p className="font-kufi text-xs tracking-[0.15em] text-accent font-bold">رسوم الجبنة الأصلية</p>
-          <h2 className="font-kufi text-[26px] sm:text-[30px] font-extrabold leading-none mt-2">ست شخصيات · سبعة أعداد</h2>
+          <h2 className="font-kufi text-[26px] sm:text-[30px] font-extrabold leading-none mt-2">ست شخصيات · ثمانية أعداد</h2>
           <p className="font-naskh text-sm text-ink-muted mt-2">وجوه القعدة مرسومة بحبر الصحافة ولمسة عنابية</p>
         </div>
         <span className="font-kufi text-xs text-ink-muted border border-ink/15 bg-white px-3 py-1.5">البت الحديقة · عددان</span>

@@ -54,6 +54,15 @@ function RouteComponent() {
       </h1>
       <p className="font-naskh text-[15px] leading-relaxed text-ink-soft mt-3 max-w-[65ch]">{issue.summary}</p>
 
+      {issue.video && (
+        <div className="mt-6 overflow-hidden border border-ink/15 bg-ink p-2 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+          <video controls playsInline preload="metadata" poster={issue.video.poster} aria-label={issue.video.title} className="w-full rounded-sm">
+            <source src={issue.video.src} type="video/mp4" />
+            <a href={issue.video.src} download className="font-kufi text-sm text-paper underline">تحميل فيديو اللقاء</a>
+          </video>
+        </div>
+      )}
+
       <div className="mt-6 grid lg:grid-cols-[0.95fr_1.05fr] gap-6">
         {/* cover */}
         <div className="bg-paper-dim/40 p-4 border border-ink/10 self-start">
@@ -95,7 +104,7 @@ function RouteComponent() {
                 </div>
               )}
               <h2 className="font-kufi text-[22px] font-extrabold">{article.title}</h2>
-              <p className="font-kufi text-xs text-ink-muted mt-1">بقلم هيئة تحرير الجبنة</p>
+              <p className="font-kufi text-xs text-ink-muted mt-1">بقلم: {article.author ?? 'هيئة تحرير الجبنة'}</p>
               <div className="mt-4 font-naskh text-[15px] leading-[1.95] text-ink-soft">
                 <p className="drop-cap">{article.intro}</p>
                 {article.paragraphs.map((p, i) => (
@@ -106,6 +115,7 @@ function RouteComponent() {
                 <p className="font-kufi text-[16px] font-bold text-accent">“ {article.quote} ”</p>
                 <cite className="block font-naskh text-xs text-ink-muted mt-2 not-italic">— {article.character}</cite>
               </blockquote>
+              {article.editorialNote && <p className="mt-5 border-r-2 border-accent pr-3 font-naskh text-sm text-ink-muted">{article.editorialNote}</p>}
               <div className="mt-6 flex flex-wrap gap-2">
                 <Link to="/posts/$slug" params={{ slug: article.issueId }} className="inline-flex items-center gap-2 bg-accent text-white font-kufi text-xs font-bold px-4 py-2.5 hover:bg-accent-soft transition-colors">
                   قراءة صفحة المقال المنفصلة ←
@@ -118,6 +128,20 @@ function RouteComponent() {
           )}
         </div>
       </div>
+
+      {issue.secondaryStory && (
+        <section className="mt-8 grid lg:grid-cols-[0.9fr_1.1fr] gap-6 border-t-2 border-ink pt-6" aria-labelledby="secondary-story-title">
+          <div className="overflow-hidden border border-ink/10 bg-white p-2">
+            <img src={issue.secondaryStory.image} alt={issue.secondaryStory.alt} width={1122} height={1402} className="w-full h-auto object-cover" loading="lazy" />
+          </div>
+          <div className="paper-card p-6 sm:p-8 self-center">
+            <p className="font-kufi text-xs text-accent font-bold">قصة ثانية من العدد ٨</p>
+            <h2 id="secondary-story-title" className="font-kufi text-[26px] font-extrabold leading-tight mt-2">{issue.secondaryStory.title}</h2>
+            <h3 className="font-kufi text-xl font-bold leading-relaxed text-accent mt-3">{issue.secondaryStory.headline}</h3>
+            <p className="font-naskh text-[16px] leading-[1.95] text-ink-soft mt-4">{issue.secondaryStory.intro}</p>
+          </div>
+        </section>
+      )}
 
       {/* prev / next */}
       <div className="mt-8 grid sm:grid-cols-2 gap-3 border-t border-ink/10 pt-6">

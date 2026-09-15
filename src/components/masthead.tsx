@@ -43,7 +43,7 @@ export default function Masthead() {
         <div className="max-w-[1280px] mx-auto px-4 py-1.5 flex items-center justify-between gap-4">
           <span className="font-kufi tracking-wide">الخرطوم — سبتمبر ٢٠٢٦</span>
           <span className="hidden md:inline opacity-80">من أجل وطن أكثر ضحكًا — صحيفة اجتماعية ساخرة مستقلة</span>
-          <span className="font-kufi">العدد ٧ · الخميس ١٠ سبتمبر</span>
+          <span className="font-kufi">العدد ٨ · الثلاثاء ١٥ سبتمبر</span>
         </div>
       </div>
 

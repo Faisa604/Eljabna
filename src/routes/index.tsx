@@ -9,7 +9,7 @@ export const Route = createFileRoute('/')({
   component: ElJabnaPage,
 })
 
-const FILTERS = ['كل الأعداد', 'الشخصيات', 'اجتماعي', 'ساخر', 'شعري'] as const
+const FILTERS = ['كل الأعداد', 'الشخصيات', 'اجتماعي', 'ساخر', 'شعري', 'لقاءات'] as const
 
 function ElJabnaPage() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('كل الأعداد')
@@ -81,18 +81,18 @@ function ElJabnaPage() {
             <div className="p-6 sm:p-8 lg:p-10 order-2 lg:order-1 flex flex-col">
               <div className="flex flex-wrap items-center gap-2 text-xs font-kufi">
                 <span className="bg-accent text-white px-2.5 py-1 font-bold tracking-wide">العدد الأحدث</span>
-                <span className="border border-ink/15 px-2.5 py-1 bg-white">العدد ٧</span>
-                <span className="text-ink-muted">١٠ سبتمبر ٢٠٢٦ · الخميس</span>
+                <span className="border border-ink/15 px-2.5 py-1 bg-white">{ISSUES[0].numberLabel}</span>
+                <span className="text-ink-muted">{ISSUES[0].date} · {ISSUES[0].day}</span>
                 <span className="hidden sm:inline w-1 h-1 bg-ink/30 rounded-full" />
                 <span className="text-accent font-bold">البت الحديقة</span>
               </div>
 
               <h2 className="font-kufi text-[28px] sm:text-[36px] lg:text-[42px] font-extrabold leading-[1.15] mt-4 headline-balance">
-                يا سمسم <span className="text-accent">الجمال ما محتاج شهادتك</span>
+                {ISSUES[0].headline}
               </h2>
 
               <p className="font-naskh text-[16px] sm:text-[17px] leading-[1.9] text-ink-soft mt-4 max-w-[60ch]">
-                تعود البت الحديقة بصورة أقرب ورد أوضح، وتواجه تعليق سمسم بثقة وسخرية لا تخلو من الشعر.
+                {ISSUES[0].summary}
               </p>
 
               <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -101,7 +101,7 @@ function ElJabnaPage() {
                   params={{ slug: ISSUES[0].id }}
                   className="inline-flex items-center gap-2 bg-accent hover:bg-accent-soft text-white font-kufi text-sm font-bold px-6 py-3 transition-colors shadow-sm"
                 >
-                  اقرأ العدد السابع
+                  اقرأ العدد الثامن
                   <span aria-hidden>←</span>
                 </Link>
                 <a
@@ -110,7 +110,7 @@ function ElJabnaPage() {
                 >
                   تصفح كل الأعداد
                 </a>
-                <span className="text-xs text-ink-muted font-naskh hidden sm:inline">سبعة أعداد · ست شخصيات · قعدة واحدة</span>
+                <span className="text-xs text-ink-muted font-naskh hidden sm:inline">ثمانية أعداد · ست شخصيات · قعدة واحدة</span>
               </div>
 
               {/* small meta rules */}
@@ -135,30 +135,22 @@ function ElJabnaPage() {
 
             {/* cover */}
             <div className="order-1 lg:order-2 bg-paper-dim/40 p-4 sm:p-6 flex items-center justify-center border-b lg:border-b-0 lg:border-r border-ink/10">
-              <button
-                onClick={() => handleCoverClick(ISSUES[0])}
-                className="group relative w-full max-w-[420px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-                aria-label="عرض غلاف العدد ٧ بحجم كبير"
-              >
+              <div className="group relative w-full max-w-[560px]">
                 <div className="absolute -inset-2 bg-accent/5 rotate-[0.6deg] hidden sm:block" aria-hidden />
                 <div className="relative bg-white p-2 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-ink/10">
-                  <picture>
-                    <source srcSet={ISSUES[0].webp} type="image/webp" />
-                    <img
-                      src={ISSUES[0].jpg}
-                      alt={ISSUES[0].alt}
-                      width={900}
-                      height={1350}
-                      className="w-full h-auto object-cover aspect-[2/3] transition-transform duration-300 group-hover:scale-[1.005]"
-                      decoding="async"
-                      fetchPriority="high"
-                    />
-                  </picture>
+                  {ISSUES[0].video ? (
+                    <video controls playsInline preload="metadata" poster={ISSUES[0].video.poster} aria-label={ISSUES[0].video.title} className="w-full h-auto object-cover aspect-video">
+                      <source src={ISSUES[0].video.src} type="video/mp4" />
+                      <a href={ISSUES[0].video.src} download className="font-kufi text-sm text-accent underline">تحميل فيديو اللقاء</a>
+                    </video>
+                  ) : (
+                    <img src={ISSUES[0].jpg} alt={ISSUES[0].alt} width={900} height={1350} className="w-full h-auto object-cover aspect-[2/3]" decoding="async" fetchPriority="high" />
+                  )}
                   <div className="absolute inset-2 border border-white/40 pointer-events-none hidden sm:block" />
-                  <span className="absolute bottom-3 right-3 bg-ink text-paper font-kufi text-[11px] px-2 py-1">اضغط للتكبير</span>
+                  <span className="absolute top-3 right-3 bg-accent text-white font-kufi text-[11px] px-2 py-1">فيديو العدد الأحدث</span>
                 </div>
-                <p className="sr-only">العدد ٧ — البت الحديقة</p>
-              </button>
+                <p className="sr-only">العدد ٨ — لقاء كرتي وماركس</p>
+              </div>
             </div>
           </div>
 
@@ -230,8 +222,8 @@ function ElJabnaPage() {
       <section id="archive" className="max-w-[1280px] mx-auto px-4 pt-10 pb-6">
         <div className="flex flex-wrap items-end justify-between gap-3 border-b-2 border-ink pb-3 mb-6">
           <div>
-            <h2 className="font-kufi text-[26px] sm:text-[30px] font-extrabold leading-none">أرشيف الجبنة — الأعداد السبعة</h2>
-            <p className="font-naskh text-sm text-ink-muted mt-2">من العدد ٧ إلى العدد ١ — سبتمبر ٢٠٢٦ · كل غلاف حكاية، وكل حكاية قعدة</p>
+            <h2 className="font-kufi text-[26px] sm:text-[30px] font-extrabold leading-none">أرشيف الجبنة — الأعداد الثمانية</h2>
+            <p className="font-naskh text-sm text-ink-muted mt-2">من العدد ٨ إلى العدد ١ — سبتمبر ٢٠٢٦ · كل غلاف حكاية، وكل حكاية قعدة</p>
           </div>
           <div className="text-xs font-kufi text-ink-muted flex items-center gap-2">
             <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
@@ -250,7 +242,7 @@ function ElJabnaPage() {
         ) : (
           <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {filteredIssues.map((issue) => {
-              const isLatest = issue.n === 7
+              const isLatest = issue.n === 8
               return (
                 <article
                   key={issue.id}
@@ -261,7 +253,7 @@ function ElJabnaPage() {
                 >
                   {isLatest && (
                     <div className="absolute top-0 right-0 bg-accent text-white font-kufi text-[11px] px-2.5 py-1 z-10">
-                      الأحدث
+                      العدد الأحدث
                     </div>
                   )}
                   {/* cover */}
@@ -278,7 +270,7 @@ function ElJabnaPage() {
                           alt={issue.alt}
                           width={900}
                           height={1350}
-                          loading={issue.n === 7 ? 'eager' : 'lazy'}
+                          loading={issue.n === 8 ? 'eager' : 'lazy'}
                           decoding="async"
                           className="w-full h-full object-cover group-hover:scale-[1.015] transition-transform duration-500"
                         />
@@ -351,7 +343,7 @@ function ElJabnaPage() {
         {/* small editorial rule */}
         <div className="mt-8 flex items-center gap-3 text-xs font-kufi text-ink-muted">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-rule to-transparent" />
-          <span>الأرشيف مطبوع بحبر أسود على ورق عتيق — الأعداد ١–٧</span>
+            <span>الأرشيف مطبوع بحبر أسود على ورق عتيق — الأعداد ١–٨</span>
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-rule to-transparent" />
         </div>
       </section>
@@ -407,7 +399,7 @@ function ElJabnaPage() {
                           <span className="text-ink-muted">{issue.date}</span>
                         </div>
                         <h3 className="font-kufi text-xl sm:text-2xl font-extrabold leading-tight mt-3 headline-balance">{article.title}</h3>
-                        <p className="font-kufi text-[11px] text-ink-muted mt-1">بقلم هيئة تحرير الجبنة</p>
+                        <p className="font-kufi text-[11px] text-ink-muted mt-1">بقلم: {article.author ?? 'هيئة تحرير الجبنة'}</p>
                       </div>
                     </div>
 
@@ -468,7 +460,7 @@ function ElJabnaPage() {
             <div className="mt-6 flex flex-wrap gap-2 text-xs font-kufi">
               <span className="bg-ink text-paper px-3 py-1.5">صُنعت للضحكة والذكرى</span>
               <span className="border border-ink/15 bg-white px-3 py-1.5 text-ink-muted">سبتمبر ٢٠٢٦ · الخرطوم</span>
-              <span className="border border-ink/15 bg-white px-3 py-1.5 text-ink-muted">٧ أعداد</span>
+              <span className="border border-ink/15 bg-white px-3 py-1.5 text-ink-muted">٨ أعداد</span>
             </div>
           </div>
 
@@ -495,7 +487,7 @@ function ElJabnaPage() {
                   <dt className="text-ink-muted">النوع</dt><dd className="font-bold">صحيفة اجتماعية ساخرة مستقلة</dd>
                 </div>
                 <div className="flex justify-between border-b border-dotted border-rule py-1">
-                  <dt className="text-ink-muted">الأعداد</dt><dd className="font-bold">١ – ٧</dd>
+                    <dt className="text-ink-muted">الأعداد</dt><dd className="font-bold">١ – ٨</dd>
                 </div>
                 <div className="flex justify-between py-1">
                   <dt className="text-ink-muted">الفترة</dt><dd className="font-bold">سبتمبر ٢٠٢٦</dd>
@@ -519,7 +511,7 @@ function ElJabnaPage() {
             <span>العدد ٤ هيتو — ترسل لي غنية</span><span className="w-1 h-1 bg-accent rounded-full" />
             <span>العدد ٥ د. أسامة — معضلة البت الحديقة</span><span className="w-1 h-1 bg-accent rounded-full" />
             <span>العدد ٦ البت الحديقة — أنا البت الحديقة</span><span className="w-1 h-1 bg-accent rounded-full" />
-            <span>العدد ٧ رد البت الحديقة — الجمال ما محتاج شهادتك</span>
+            <span>العدد ٨ كرتي وماركس — لقاء التاريخ والأشواق</span>
           </div>
         </div>
       </div>
