@@ -118,6 +118,13 @@ export default function Masthead() {
                 </a>
               </li>
             ))}
+            <li className="border-b lg:border-b-0 border-ink/10 last:border-0">
+              <form method="post" action="/logout">
+                <button type="submit" className="block w-full px-4 py-3 lg:py-2.5 text-[14px] font-kufi font-semibold tracking-wide text-ink hover:text-accent hover:bg-white/60 transition-colors lg:text-center">
+                  خروج
+                </button>
+              </form>
+            </li>
             {/* slogans inline mobile */}
             <li className="lg:hidden px-4 py-2 flex items-center justify-center gap-6 text-[11px] font-kufi text-ink-muted border-t border-ink/10 bg-paper-warm/50">
               <span>كلام الناس في الجبنة أحلى</span>
